@@ -18,6 +18,8 @@ const context: Context = {
 await cli(process.argv, {
 	name: "🐙 octo",
 	help: `tiny command orchestrator`,
+	readme: "https://github.com/e280/octo",
+	summarize: false,
 	commands: {
 
 		parallel: command({
