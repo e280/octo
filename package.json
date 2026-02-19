@@ -1,0 +1,50 @@
+{
+	"name": "@e280/octo",
+	"version": "0.1.0-0",
+	"description": "🐙 tiny command orchestrator",
+	"license": "MIT",
+	"author": "Chase Moskal <chasemoskal@gmail.com>",
+	"type": "module",
+	"main": "./x/index.js",
+	"sideEffects": false,
+	"files": [
+		"x",
+		"s"
+	],
+	"bin": "./x/octo/cli.js",
+	"exports": {
+		".": "./x/index.js"
+	},
+	"scripts": {
+		"build": "npm run -s _clean && npm run -s _links && npm run -s _tsc",
+		"test": "node x/tests.test.js",
+		"test-watch": "node --watch x/tests.test.js",
+		"test-inspect": "node inspect x/tests.test.js",
+		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
+		"watch": "run-p _tscw test-watch",
+		"_clean": "rm -rf x && mkdir x",
+		"_links": "ln -s \"$(realpath node_modules)\" x/node_modules",
+		"_tsc": "tsc",
+		"_tscw": "tsc -w"
+	},
+	"devDependencies": {
+		"@e280/science": "^0.1.7",
+		"@types/node": "^25.2.3",
+		"typescript": "^5.9.3"
+	},
+	"keywords": [
+		"octo",
+		"tui",
+		"multiplexer",
+		"orchestrator",
+		"watch"
+	],
+	"homepage": "https://github.com/e280/octo#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/e280/octo.git"
+	},
+	"bugs": {
+		"url": "https://github.com/e280/octo/issues"
+	}
+}
