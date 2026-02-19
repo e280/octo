@@ -1,8 +1,7 @@
 
-import {sub} from "@e280/stz"
+import {pub, sub} from "@e280/stz"
 import {Logger} from "@e280/sten"
-import {spy} from "@e280/science"
-import {Context, ExecuteShellFn} from "../parts/types.js"
+import {Context, ExecuteShellFn, ProcInternal} from "../parts/types.js"
 
 export function setupContext(
 		executeShell: ExecuteShellFn
@@ -10,9 +9,14 @@ export function setupContext(
 
 	return {
 		executeShell,
-		onDeath: sub<[number]>(),
-		pleaseExit: spy(async() => {}),
 		logger: new Logger().setWriter(Logger.writers.void()),
+		proc: {
+			stdin: new ReadableStream(),
+			stdout: new WritableStream(),
+			stderr: new WritableStream(),
+			exit: pub(),
+			onKill: sub(),
+		} satisfies ProcInternal,
 	} satisfies Context
 }
 

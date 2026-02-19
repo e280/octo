@@ -27,8 +27,10 @@ export default Science.suite({
 		const a = spy(async() => 1)
 		const b = spy(async() => 0)
 		const options = setupOptions(a, b)
+		let exited = 0
+		options.context.proc.exit.sub(() => void exited++)
 		await sequence(options)
-		expect(options.context.pleaseExit.spy.calls.length).is(1)
+		expect(exited).is(1)
 	}),
 })
 

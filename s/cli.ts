@@ -1,19 +1,12 @@
 #!/usr/bin/env node
 
-import {Logger} from "@e280/sten"
-import {cli, command, deathWithDignity, param} from "@benev/argv"
+import {cli, command, param} from "@benev/argv"
 
-import {Context} from "./parts/types.js"
 import {parallel} from "./routines/parallel.js"
 import {sequence} from "./routines/sequence.js"
+import {makeNodeContext} from "./envs/node/context.js"
 
-const context: Context = {
-	...deathWithDignity(),
-	executeShell: async() => 1,
-	logger: new Logger()
-		.setWriter(Logger.writers.console())
-		.setShaper(Logger.shapers.errors()),
-}
+const context = makeNodeContext()
 
 await cli(process.argv, {
 	name: "🐙 octo",

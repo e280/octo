@@ -7,13 +7,12 @@ export async function sequence({context, extraArgs, params}: {
 		extraArgs: string[]
 	}) {
 
-	for (const shelltext of extraArgs) {
-		const exitCode = await context.executeShell(shelltext)
+	for (const command of extraArgs) {
+		const proc = context.executeShell(command)
+		const exitCode = await proc.exitCode
 
-		if (exitCode !== 0) {
-			await context.pleaseExit(exitCode)
-			return
-		}
+		if (exitCode !== 0)
+			return context.proc.exit(exitCode)
 	}
 }
 
