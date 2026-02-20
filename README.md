@@ -1,23 +1,35 @@
 
-# 🐙 `@e280/octo`
-> *tiny command orchestrator*
+![](https://i.imgur.com/M0zNgLw.png)
+
+
+
+<br/>
+
+> [!IMPORTANT]
+> octo is a work in progress right now, we haven't yet published the first version.
+
+
+
+<br/>
+
+# 🐙 octo — *tiny command orchestrator*
 
 ```bash
 npm install @e280/octo
 ```
-- octo started with the fancy `--ui` mode
-- octo has since become e280's replacement for `npm-run-all`
+- we use octo's parallel `--ui` mode to run several watch routines all at once (like tsc, http-server, scute, tests)
+- we also use octo in our package.json scripts to run commands in parallel or in sequence (replacing `npm-run-all`)
 - octo was previously part of our buildy-bundly-buddy, [`@e280/scute`](https://github.com/e280/scute)
 
 
 
 <br/>
 
-## 🦑 octo parallel — run commands all-at-once
+## 🦑 octo parallel — *run commands all-at-once*
 
 ### 🫧 run shell commands concurrently
 ```bash
-octo parallel 'tsc -w' 'http-server x' 'node x/tests.test.js'
+octo parallel 'tsc -w' 'http-server x' 'node --watch x/tests.test.js'
 ```
 
 ### 🫧 `--npm-run` for your package.json scripts
@@ -27,7 +39,7 @@ octo parallel --npm-run lint bundle test
 
 ### 🫧 `--ui` for a fancy interactive process viewer tui
 ```bash
-octo parallel --ui 'tsc -w' 'http-server-x' 'node x/tests.test.js'
+octo parallel --ui 'tsc -w' 'http-server-x' 'node --watch x/tests.test.js'
 ```
 - ✨🆒✨ terminal interface with tabs for your watch routines
 - yes, you can combine it with `--npm-run`
@@ -38,7 +50,7 @@ octo parallel --ui 'tsc -w' 'http-server-x' 'node x/tests.test.js'
 
 <br/>
 
-## 🦑 octo sequence — run commands one-by-one
+## 🦑 octo sequence — *run commands one-by-one*
 
 ### 🫧 run shell commands sequentially
 ```bash
@@ -54,18 +66,15 @@ octo sequence --npm-run clean tsc test
 
 <br/>
 
-## 🦑 octo shorts
+## 🦑 octo aliases
 
 ```bash
-octo p -n lint bundle test
-```
-- `p` === `parallel`
-- `-n` === `--npm-run`
-
-```bash
+octo p -n -u lint bundle test
 octo s -n lint bundle test
 ```
+- `p` === `parallel`
 - `s` === `sequence`
+- `-u` === `--ui`
 - `-n` === `--npm-run`
 
 
