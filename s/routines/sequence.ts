@@ -2,7 +2,7 @@
 import {Context} from "../parts/types.js"
 import {toNpmCommands} from "./utils/to-npm-commands.js"
 
-export async function sequence({context, extraArgs, params}: {
+export async function sequence({context, params, extraArgs}: {
 		context: Context
 		params: {"npm-run": boolean}
 		extraArgs: string[]
