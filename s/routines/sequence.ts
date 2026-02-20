@@ -1,5 +1,6 @@
 
 import {Context} from "../parts/types.js"
+import {toNpmCommands} from "./utils/to-npm-commands.js"
 
 export async function sequence({context, extraArgs, params}: {
 		context: Context
@@ -7,10 +8,13 @@ export async function sequence({context, extraArgs, params}: {
 		extraArgs: string[]
 	}) {
 
-	for (const command of extraArgs) {
+	const commands = params["npm-run"]
+		? toNpmCommands(extraArgs)
+		: extraArgs
+
+	for (const command of commands) {
 		const proc = context.executeShell(command)
 		const exitCode = await proc.exitCode
-
 		if (exitCode !== 0)
 			return context.proc.exit(exitCode)
 	}
