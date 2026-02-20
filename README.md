@@ -27,17 +27,17 @@ npm install @e280/octo
 
 ## 🦑 octo parallel — *run commands all-at-once*
 
-### 🫧 run shell commands concurrently
+### 🫧 run concurrent shell commands
 ```bash
 octo parallel 'tsc -w' 'http-server x' 'node --watch x/tests.test.js'
 ```
 
-### 🫧 `--npm-run` for your package.json scripts
+### 🫧 run concurrent package.json scripts
 ```bash
 octo parallel --npm-run lint bundle test
 ```
 
-### 🫧 `--ui` for a fancy interactive process viewer tui
+### 🫧 fancy interactive process viewer tui
 ```bash
 octo parallel --ui 'tsc -w' 'http-server-x' 'node --watch x/tests.test.js'
 ```
@@ -52,12 +52,12 @@ octo parallel --ui 'tsc -w' 'http-server-x' 'node --watch x/tests.test.js'
 
 ## 🦑 octo sequence — *run commands one-by-one*
 
-### 🫧 run shell commands sequentially
+### 🫧 run sequential shell commands
 ```bash
 octo sequence 'rm -rf x' 'tsc' 'node x/tests.test.js'
 ```
 
-### 🫧 `--npm-run` for your package.json scripts
+### 🫧 run sequential package.json scripts
 ```bash
 octo sequence --npm-run clean tsc test
 ```
@@ -74,8 +74,8 @@ octo s -n lint bundle test
 ```
 - `p` === `parallel`
 - `s` === `sequence`
-- `-u` === `--ui`
 - `-n` === `--npm-run`
+- `-u` === `--ui`
 
 
 
