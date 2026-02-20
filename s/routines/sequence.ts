@@ -15,6 +15,7 @@ export async function sequence({context, params, extraArgs}: {
 	for (const command of commands) {
 		const proc = context.executeShell(command)
 		const exitCode = await proc.exitCode
+
 		if (exitCode !== 0)
 			return context.proc.exit(exitCode)
 	}
