@@ -17,7 +17,7 @@
 ```bash
 npm install @e280/octo
 ```
-- run watch tasks together with `parallel --ui` (tsc, http-server, scute, tests, etc)
+- run watch tasks together in a fancy tabby tui (tsc, http-server, scute, tests, etc)
 - run package.json scripts in parallel or sequence (goodbye `npm-run-all` 🫡)
 - octo was originally born in [`@e280/scute`](https://github.com/e280/scute)
 
