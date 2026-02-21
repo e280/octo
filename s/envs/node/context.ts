@@ -17,7 +17,6 @@ export function makeNodeContext(): Context {
 	proc.exit.sub(exitCode => process.exit(exitCode))
 	process.on("SIGTERM", () => proc.onKill.pub("SIGTERM"))
 	process.on("SIGINT", () => proc.onKill.pub("SIGINT"))
-	process.on("SIGKILL", () => proc.onKill.pub("SIGKILL"))
 
 	return {
 		proc,
