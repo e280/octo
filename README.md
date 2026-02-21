@@ -15,7 +15,7 @@
 # 🐙 octo — *tiny command orchestrator*
 
 ```bash
-npm install @e280/octo
+npm install --save-dev @e280/octo
 ```
 - run watch tasks together in a fancy tabby tui (tsc, http-server, scute, tests, etc)
 - run package.json scripts in parallel or sequence (goodbye `npm-run-all` 🫡)
