@@ -12,12 +12,10 @@ export function setupOptions(
 		setupShell({a, b})
 	)
 
-	const options = {
+	return {
 		context,
-		params: {"npm-run": false},
+		params: {"npm-run": false, "ui": false},
 		extraArgs: ["a", "b"],
 	}
-
-	return options
 }
 

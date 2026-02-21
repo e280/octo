@@ -1,19 +1,33 @@
 
 import {Context} from "../parts/types.js"
+import {toNpmCommands} from "./utils/to-npm-commands.js"
 
 export async function parallel({context, extraArgs, params}: {
 		context: Context
+		extraArgs: string[]
 		params: {
 			"ui": boolean
 			"npm-run": boolean
 		}
-		extraArgs: string[]
 	}) {
 
-	if (params["ui"]) {}
+	if (params["ui"])
+		throw new Error("TODO coming soon")
 
-	if (params["npm-run"]) {}
+	const commands = params["npm-run"]
+		? toNpmCommands(extraArgs)
+		: extraArgs
 
-	context.logger.log("hello world, parallel", extraArgs)
+	const exitCodes = await Promise.all(
+		commands.map(
+			async command => context.executeShell(command).exitCode
+		)
+	)
+
+	return context.proc.exit(
+		exitCodes.every(code => code === 0)
+			? 0
+			: 1
+	)
 }
 
