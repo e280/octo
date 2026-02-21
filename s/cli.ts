@@ -2,8 +2,9 @@
 
 import {cli, command, param} from "@benev/argv"
 
-import {parallel} from "./routines/parallel.js"
-import {sequence} from "./routines/sequence.js"
+import {sequence} from "./fns/sequence.js"
+import {parallel} from "./fns/parallel.js"
+import {toCommands} from "./fns/utils/to-commands.js"
 import {makeNodeContext} from "./envs/node/context.js"
 
 const context = makeNodeContext()
@@ -30,8 +31,9 @@ await cli(process.argv, {
 				help: `commands to run all-at-once`,
 			},
 
-			async execute(o) {
-				await parallel({context, ...o})
+			async execute({params, extraArgs}) {
+				if (params["ui"]) throw new Error("TODO coming soon")
+				else await parallel(context, toCommands(params, extraArgs))
 			},
 		}),
 
@@ -47,8 +49,8 @@ await cli(process.argv, {
 				help: `commands to run one-by-one`,
 			},
 
-			async execute(o) {
-				await sequence({context, ...o})
+			async execute({params, extraArgs}) {
+				await sequence(context, toCommands(params, extraArgs))
 			},
 		}),
 	},

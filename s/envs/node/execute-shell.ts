@@ -1,7 +1,7 @@
 
 import Stream from "node:stream"
 import {spawn} from "node:child_process"
-import {ExecuteShellFn, ExitCode} from "../../parts/types.js"
+import {ExecuteShellFn, ExitCode} from "../../types.js"
 
 export const executeShellNode: ExecuteShellFn = command => {
 	const child = spawn(command, {shell: true})

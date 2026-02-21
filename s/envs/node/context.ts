@@ -1,10 +1,9 @@
 
 import Stream from "node:stream"
-import {Logger} from "@e280/sten"
 import {pub, sub} from "@e280/stz"
 
 import {executeShellNode} from "./execute-shell.js"
-import {Context, ExitCode, KillSignal, ProcInternal} from "../../parts/types.js"
+import {Context, ExitCode, KillSignal, ProcInternal} from "../../types.js"
 
 export function makeNodeContext(): Context {
 	const proc = {
@@ -23,9 +22,6 @@ export function makeNodeContext(): Context {
 	return {
 		proc,
 		executeShell: executeShellNode,
-		logger: new Logger()
-			.setWriter(Logger.writers.console())
-			.setShaper(Logger.shapers.errors()),
 	}
 }
 

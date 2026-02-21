@@ -1,9 +1,7 @@
 
 import {Sub} from "@e280/stz"
-import {Logger} from "@e280/sten"
 
 export type Context = {
-	logger: Logger
 	proc: ProcInternal
 	executeShell: ExecuteShellFn
 }

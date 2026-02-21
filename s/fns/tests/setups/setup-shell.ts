@@ -1,6 +1,6 @@
 
 import {defer, sub} from "@e280/stz"
-import {KillSignal, ExecuteShellFn, ExitCode, ProcInternal} from "../parts/types.js"
+import {KillSignal, ExecuteShellFn, ExitCode, ProcInternal} from "../../../types.js"
 
 export function setupShell(
 		commands: Record<string, (proc: ProcInternal) => Promise<ExitCode>>
