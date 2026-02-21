@@ -1,11 +1,11 @@
 
-import {ExitCode} from "../../../types.js"
+import {MockProcFn} from "./types.js"
 import {setupShell} from "./setup-shell.js"
 import {setupContext} from "./setup-context.js"
 
 export function setupOptions(
-		alpha: () => Promise<ExitCode>,
-		bravo: () => Promise<ExitCode>,
+		alpha: MockProcFn,
+		bravo: MockProcFn,
 	) {
 
 	const executeShell = setupShell({alpha, bravo})

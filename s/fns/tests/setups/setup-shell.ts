@@ -1,40 +1,23 @@
 
-import {defer, sub} from "@e280/stz"
-import {KillSignal, ExecuteShellFn, ExitCode, ProcInternal} from "../../../types.js"
+import {MockProcFn} from "./types.js"
+import {mockProc} from "./mock-proc.js"
+import {ExecuteShellFn} from "../../../types.js"
 
 export function setupShell(
-		commands: Record<string, (proc: ProcInternal) => Promise<ExitCode>>
+		commands: Record<string, MockProcFn>
 	): ExecuteShellFn {
 
 	return (command: string) => {
 		const fn = commands[command]
 		if (!fn) throw new Error(`mock fn not found for shell command "${command}"`)
 
-		const stdin = new TransformStream<Uint8Array>()
-		const stdout = new TransformStream<Uint8Array>()
-		const stderr = new TransformStream<Uint8Array>()
-		const onKill = sub<[KillSignal]>()
-		const deferredExitCode = defer<ExitCode>()
-
-		const internal: ProcInternal = {
-			stdin: stdin.readable,
-			stdout: stdin.writable,
-			stderr: stderr.writable,
-			onKill,
-			exit: deferredExitCode.resolve,
-		}
+		const {internal, external} = mockProc()
 
 		fn(internal)
-			.then(deferredExitCode.resolve)
-			.catch(deferredExitCode.reject)
+			.then(internal.exit)
+			.catch(() => internal.exit(1))
 
-		return {
-			stdin: stdin.writable,
-			stdout: stdout.readable,
-			stderr: stderr.readable,
-			kill: onKill.pub,
-			exitCode: deferredExitCode.promise,
-		}
+		return external
 	}
 }
 

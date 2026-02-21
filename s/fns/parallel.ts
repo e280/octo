@@ -1,6 +1,6 @@
 
 import {Context} from "../types.js"
-import {merger} from "./utils/merger.js"
+import {mergeBytes} from "./utils/merger.js"
 
 export async function parallel(context: Context, commands: string[]) {
 
@@ -8,8 +8,8 @@ export async function parallel(context: Context, commands: string[]) {
 	const procs = commands.map(command => context.executeShell(command))
 
 	// forward stdout and stderr from all child processes to parent process
-	merger(context.proc.stdout, procs.map(p => p.stdout))
-	merger(context.proc.stderr, procs.map(p => p.stderr))
+	mergeBytes(context.proc.stdout, procs.map(p => p.stdout))
+	mergeBytes(context.proc.stderr, procs.map(p => p.stderr))
 
 	// forward kill signals
 	const stop = context.proc.onKill(signal => procs.forEach(p => p.kill(signal)))

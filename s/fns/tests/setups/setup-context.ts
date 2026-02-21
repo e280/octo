@@ -1,20 +1,17 @@
 
-import {pub, sub} from "@e280/stz"
-import {Context, ExecuteShellFn, ProcInternal} from "../../../types.js"
+import {mockProc} from "./mock-proc.js"
+import {Context, ExecuteShellFn} from "../../../types.js"
 
 export function setupContext(
 		executeShell: ExecuteShellFn
 	) {
 
+	const {internal, external} = mockProc()
+
 	return {
 		executeShell,
-		proc: {
-			stdin: new ReadableStream(),
-			stdout: new WritableStream(),
-			stderr: new WritableStream(),
-			exit: pub(),
-			onKill: sub(),
-		} satisfies ProcInternal,
-	} satisfies Context
+		proc: internal,
+		external,
+	} satisfies Context & Record<string, any>
 }
 

@@ -49,5 +49,22 @@ export default Science.suite({
 		await parallel(context, commands)
 		expect(exitCode).is(1)
 	}),
+
+	// // TODO figure out how to test this
+	// "combine stdout": test.only(async() => {
+	// 	const alpha = spy<MockProcFn>(async proc => {
+	// 		proc.stdout.getWriter().write(txt.toBytes("hello"))
+	// 		return 0
+	// 	})
+	// 	const bravo = spy(async proc => {
+	// 		proc.stdout.getWriter().write(txt.toBytes("world"))
+	// 		return 0
+	// 	})
+	// 	const [context, commands] = setupOptions(alpha, bravo)
+	// 	await parallel(context, commands)
+	// 	const {value} = await context.external.stdout.getReader().read()
+	// 	const lol = value && txt.fromBytes(value)
+	// 	expect(lol).ok()
+	// }),
 })
 
