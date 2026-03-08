@@ -1,6 +1,6 @@
 
 import stringWidth from "string-width"
-import {State} from "../model/types.js"
+import {State} from "../state/types.js"
 import {ansi} from "../../utils/ansi.js"
 import {indicator} from "./indicator.js"
 

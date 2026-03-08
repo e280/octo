@@ -1,5 +1,5 @@
 
-import {Status} from "../model/types.js"
+import {Status} from "../state/types.js"
 
 export function indicator(status: Status) {
 	switch (status) {
