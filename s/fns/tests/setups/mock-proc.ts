@@ -2,7 +2,12 @@
 import {defer, pub, sub} from "@e280/stz"
 import {ExitCode, KillSignal, ProcExternal, ProcInternal} from "../../../types.js"
 
+let pidCount = 100
+
 export function mockProc() {
+	const pid = pidCount++
+	const label = "node mock.js --fake process"
+
 	const stdout = new TransformStream<Uint8Array, Uint8Array>()
 	const stderr = new TransformStream<Uint8Array, Uint8Array>()
 	const onKill = sub<[KillSignal]>()
@@ -12,6 +17,8 @@ export function mockProc() {
 	const onKey = sub<[key: string]>()
 
 	const internal = {
+		pid,
+		command: label,
 		stdout: stdout.writable,
 		stderr: stderr.writable,
 		onKill,
@@ -23,6 +30,8 @@ export function mockProc() {
 	} satisfies ProcInternal
 
 	const external = {
+		pid,
+		command: label,
 		stdout: stdout.readable,
 		stderr: stderr.readable,
 		kill: onKill.pub,

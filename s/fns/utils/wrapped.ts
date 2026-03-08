@@ -1,4 +1,8 @@
 
+export function wrap(index: number, len: number) {
+	return ((index % len) + len) % len
+}
+
 export class Wrapped {
 	#len
 	#value
@@ -15,9 +19,5 @@ export class Wrapped {
 	set value(n: number) {
 		this.#value = wrap(n, this.#len)
 	}
-}
-
-function wrap(index: number, len: number) {
-	return ((index % len) + len) % len
 }
 

@@ -46,6 +46,7 @@
 	"dependencies": {
 		"@benev/argv": "^0.3.14",
 		"@e280/sten": "^0.1.1",
+		"@e280/strata": "^0.3.0-1",
 		"@e280/stz": "^0.2.24",
 		"shell-quote": "^1.8.3"
 	}

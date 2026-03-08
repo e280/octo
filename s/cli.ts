@@ -2,7 +2,7 @@
 
 import {cli, command, param} from "@benev/argv"
 
-import {ui} from "./ui/ui.js"
+import {ui} from "./fns/ui.js"
 import {sequence} from "./fns/sequence.js"
 import {parallel} from "./fns/parallel.js"
 import {toCommands} from "./fns/utils/to-commands.js"
