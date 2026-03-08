@@ -9,8 +9,8 @@ import {ProcExternal, ProcInternal} from "../../../types.js"
 export function makeLivingState(proc: ProcInternal, children: ProcExternal[]): State {
 	const dashboardView = makeDashboardView(proc)
 
-	const processViews = children.map((child, i) => {
-		const view = makeProcessView(child, i.toString())
+	const processViews = children.map(child => {
+		const view = makeProcessView(child)
 		liveUpdates(child, view)
 		return view
 	})

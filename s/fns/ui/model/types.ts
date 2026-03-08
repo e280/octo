@@ -11,7 +11,6 @@ export type State = {
 export type Status = "happy" | "angry" | "done" | "failed"
 
 export type Tab = {
-	sigil: string
 	$status: Signal<Status>
 	pid: number
 	command: string

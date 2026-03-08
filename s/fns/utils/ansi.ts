@@ -2,6 +2,12 @@
 const c = (n: number) => `\x1b[${n}m`
 
 export const ansi = {
+	combo: (...codes: string[]) => (...s: string[]) => (
+		codes.join("") +
+		s.join("") +
+		ansi.reset.all
+	),
+
 	cursor: (row: number, col: number) => `\x1b[${row};${col}H`,
 
 	clear: `\x1b[2J\x1b[H`,
