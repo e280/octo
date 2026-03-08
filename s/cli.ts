@@ -10,49 +10,54 @@ import {makeNodeContext} from "./envs/node/context.js"
 
 const context = makeNodeContext()
 
+const parallelCommand = command({
+	args: [],
+	params: {
+		"ui": param.flag("-u", {
+			help: "fancy interactive process viewer tui",
+		}),
+		"npm-run": param.flag("-n", {
+			help: "use npm run to execute package.json scripts",
+		}),
+	},
+	extraArgs: {
+		name: "commands",
+		help: `commands to run all-at-once`,
+	},
+
+	async execute({params, extraArgs}) {
+		if (params["ui"]) await ui(context, toCommands(params, extraArgs))
+		else await parallel(context, toCommands(params, extraArgs))
+	},
+})
+
+const sequenceCommand = command({
+	args: [],
+	params: {
+		"npm-run": param.flag("-n", {
+			help: "use npm run to execute package.json scripts",
+		}),
+	},
+	extraArgs: {
+		name: "commands",
+		help: `commands to run one-by-one`,
+	},
+
+	async execute({params, extraArgs}) {
+		await sequence(context, toCommands(params, extraArgs))
+	},
+})
+
 await cli(process.argv, {
 	name: "🐙 octo",
 	help: `tiny command orchestrator`,
 	readme: "https://github.com/e280/octo",
-	summarize: false,
+	summarize: true,
 	commands: {
-		parallel: command({
-			args: [],
-			params: {
-				"ui": param.flag("-u", {
-					help: "fancy interactive process viewer tui",
-				}),
-				"npm-run": param.flag("-n", {
-					help: "use npm run to execute package.json scripts",
-				}),
-			},
-			extraArgs: {
-				name: "commands",
-				help: `commands to run all-at-once`,
-			},
-
-			async execute({params, extraArgs}) {
-				if (params["ui"]) await ui(context, toCommands(params, extraArgs))
-				else await parallel(context, toCommands(params, extraArgs))
-			},
-		}),
-
-		sequence: command({
-			args: [],
-			params: {
-				"npm-run": param.flag("-n", {
-					help: "use npm run to execute package.json scripts",
-				}),
-			},
-			extraArgs: {
-				name: "commands",
-				help: `commands to run one-by-one`,
-			},
-
-			async execute({params, extraArgs}) {
-				await sequence(context, toCommands(params, extraArgs))
-			},
-		}),
+		parallel: parallelCommand,
+		sequence: sequenceCommand,
+		p: parallelCommand,
+		s: sequenceCommand,
 	},
 }).execute()
 
