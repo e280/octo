@@ -10,7 +10,6 @@ export type ExitCode = number
 export type KillSignal = "SIGINT" | "SIGTERM" | "SIGKILL"
 
 export type ProcExternal = {
-	stdin: WritableStream<Uint8Array>
 	stdout: ReadableStream<Uint8Array>
 	stderr: ReadableStream<Uint8Array>
 	exitCode: Promise<ExitCode>
@@ -18,7 +17,6 @@ export type ProcExternal = {
 }
 
 export type ProcInternal = {
-	stdin: ReadableStream<Uint8Array>
 	stdout: WritableStream<Uint8Array>
 	stderr: WritableStream<Uint8Array>
 	onKill: Sub<[KillSignal]>

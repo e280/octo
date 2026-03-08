@@ -1,7 +1,8 @@
 
 import {txt} from "@e280/stz"
 import {Context} from "../types.js"
-import {color} from "./parts/colors.js"
+import {color} from "./utils/colors.js"
+import {Wrapped} from "./utils/wrapped.js"
 
 export async function ui(context: Context, commands: string[]) {
 	const stdoutWriter = context.proc.stdout.getWriter()
@@ -24,23 +25,15 @@ export async function ui(context: Context, commands: string[]) {
 	}
 
 	const switcher = new class {
-		#index = 0
-
-		get index() { return this.#index }
-
-		set index(n: number) {
-			const len = commands.length
-			this.#index = ((n % len) + len) % len
-		}
-
 		views = [
 			new SplitView(commands),
 			...commands.map(command => new ProcessView(command)),
 		]
 
+		index = new Wrapped(0, this.views.length)
+
 		render() {
-			const view = this.views.at(this.#index) ?? this.views[0]
-			return view.render()
+			return this.views.at(this.index.value)!.render()
 		}
 	}
 
@@ -48,12 +41,12 @@ export async function ui(context: Context, commands: string[]) {
 		render() {
 			const tabs = switcher.views.map((view, index) => {
 				if (view instanceof SplitView) {
-					return index === switcher.index
+					return index === switcher.index.value
 						? `(s)`
 						: ` s `
 				}
 				else {
-					return index === switcher.index
+					return index === switcher.index.value
 						? `(${index}•)`
 						: ` ${index}• `
 				}
@@ -71,14 +64,13 @@ export async function ui(context: Context, commands: string[]) {
 	context.proc.onResize(draw)
 
 	context.proc.onKey(key => {
-		if (key === "]") switcher.index++
-		if (key === "[") switcher.index--
+		if (key === "]") switcher.index.value++
+		if (key === "[") switcher.index.value--
 		draw()
 	})
 
 	context.proc.onKill(() => process.exit(0))
 
-	// do nothing, lol
 	setInterval(() => {}, 1000)
 }
 

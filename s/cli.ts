@@ -2,11 +2,11 @@
 
 import {cli, command, param} from "@benev/argv"
 
+import {ui} from "./ui/ui.js"
 import {sequence} from "./fns/sequence.js"
 import {parallel} from "./fns/parallel.js"
 import {toCommands} from "./fns/utils/to-commands.js"
 import {makeNodeContext} from "./envs/node/context.js"
-import { ui } from "./ui/ui.js"
 
 const context = makeNodeContext()
 
@@ -16,7 +16,6 @@ await cli(process.argv, {
 	readme: "https://github.com/e280/octo",
 	summarize: false,
 	commands: {
-
 		parallel: command({
 			args: [],
 			params: {
