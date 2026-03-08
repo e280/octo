@@ -27,24 +27,52 @@ npm install --save-dev @e280/octo
 
 ## 🦑 octo parallel — *run commands all-at-once*
 
-### 🐡 run concurrent shell commands
 ```bash
 octo parallel 'tsc -w' 'http-server x' 'node --watch x/tests.test.js'
 ```
 
-### 🐡 run concurrent package.json scripts
 ```bash
+# run your npm scripts
 octo parallel --npm-run lint bundle test
 ```
 
-### 🐡 ✨🆒✨ fancy interactive process viewer tui
 ```bash
+# ✨🆒✨ fancy terminal user interface
 octo parallel --ui 'tsc -w' 'http-server-x' 'node --watch x/tests.test.js'
 ```
-- terminal user interface
 - press `[` and `]` to shimmy between tabs
 - press `q` to quit
 - yes, you can combine it with `--npm-run`
+
+##### example --ui split view
+```
+┌─ 1! tsc -w ──────────────────────────┐
+│ s/foo.ts:12 error TS2339             │
+│ s/bar.ts:44 error TS2322             │
+└────────────────────────────────23415─┘
+┌─ 2• scute -wv ───────────────────────┐
+│ html x/index.html                    │
+│ time 129 ms                          │
+└────────────────────────────────23416─┘
+┌─ 3• node --watch x/tests.js ─────────┐
+│ ✅ 21 happy tests - 61 ms            │
+│                                      │
+└────────────────────────────────23417─┘
+  🐙 (s) 1!  2•  3•
+```
+
+##### example --ui process view
+```
+s/foo.ts:12 error TS2339
+s/bar.ts:44 error TS2322
+  🐙  s (1!) 2•  3•         23415 tsc -w
+```
+
+##### process status indicators
+- `•` running, got stdout
+- `!` running, got stderr
+- `◦` done (exit zero)
+- `x` failed (exit non-zero)
 
 
 
@@ -52,13 +80,12 @@ octo parallel --ui 'tsc -w' 'http-server-x' 'node --watch x/tests.test.js'
 
 ## 🦑 octo sequence — *run commands one-by-one*
 
-### 🐡 run sequential shell commands
 ```bash
 octo sequence 'rm -rf x' 'tsc' 'node x/tests.test.js'
 ```
 
-### 🐡 run sequential package.json scripts
 ```bash
+# run your npm scripts
 octo sequence --npm-run clean tsc test
 ```
 
@@ -69,7 +96,7 @@ octo sequence --npm-run clean tsc test
 ## 🦑 octo aliases
 
 ```bash
-octo p -n -u lint bundle test
+octo p -nu lint bundle test
 octo s -n lint bundle test
 ```
 - `p` === `parallel`

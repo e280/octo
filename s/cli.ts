@@ -6,6 +6,7 @@ import {sequence} from "./fns/sequence.js"
 import {parallel} from "./fns/parallel.js"
 import {toCommands} from "./fns/utils/to-commands.js"
 import {makeNodeContext} from "./envs/node/context.js"
+import { ui } from "./ui/ui.js"
 
 const context = makeNodeContext()
 
@@ -32,7 +33,7 @@ await cli(process.argv, {
 			},
 
 			async execute({params, extraArgs}) {
-				if (params["ui"]) throw new Error("TODO coming soon")
+				if (params["ui"]) await ui(context, toCommands(params, extraArgs))
 				else await parallel(context, toCommands(params, extraArgs))
 			},
 		}),

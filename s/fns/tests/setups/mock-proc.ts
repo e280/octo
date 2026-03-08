@@ -9,6 +9,8 @@ export function mockProc() {
 	const onKill = sub<[KillSignal]>()
 	const deferredExitCode = defer<ExitCode>()
 	const exit = pub(deferredExitCode.resolve)
+	const onResize = sub()
+	const onKey = sub<[key: string]>()
 
 	const internal = {
 		stdin: stdin.readable,
@@ -16,6 +18,10 @@ export function mockProc() {
 		stderr: stderr.writable,
 		onKill,
 		exit,
+		rows: 80,
+		columns: 80,
+		onResize,
+		onKey,
 	} satisfies ProcInternal
 
 	const external = {

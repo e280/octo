@@ -22,6 +22,10 @@ export type ProcInternal = {
 	stdout: WritableStream<Uint8Array>
 	stderr: WritableStream<Uint8Array>
 	onKill: Sub<[KillSignal]>
+	rows: number
+	columns: number
+	onResize: Sub
+	onKey: Sub<[key: string]>
 	exit: (exitCode: ExitCode) => void
 }
 
