@@ -1,55 +1,34 @@
 
 import {txt} from "@e280/stz"
-import {effect, signal} from "@e280/strata"
+import {effect} from "@e280/strata"
 import {Context} from "../types.js"
-import {State} from "./model/types.js"
-import {liveUpdates} from "./model/live-updates.js"
-import {makeProcessView} from "./model/make-process-view.js"
+import {ansi} from "./utils/ansi.js"
+import {addIndex} from "./ui/model/add-index.js"
+import {renderFooter} from "./ui/render/footer.js"
+import {makeLivingState} from "./ui/model/make-living-state.js"
 import {startConcurrently} from "./utils/start-concurrently.js"
-import {makeDashboardView} from "./model/make-dashboard-view.js"
 import {forwardKillSignals} from "./utils/forward-kill-signals.js"
-import {color} from "./utils/colors.js"
-import {addIndex} from "./model/add-index.js"
 
 export async function ui(context: Context, commands: string[]) {
 	const {proc, executeShell} = context
+
 	const children = startConcurrently(executeShell, commands)
 	forwardKillSignals(children, proc)
 
-	const dashboardView = makeDashboardView(proc)
-
-	const processViews = children.map((child, i) => {
-		const view = makeProcessView(child, i.toString())
-		liveUpdates(child, view)
-		return view
-	})
-
-	const state: State = {
-		$index: signal(0),
-		views: [dashboardView, ...processViews],
-	}
-
-	const stdoutWriter = context.proc.stdout.getWriter()
+	const state = makeLivingState(proc, children)
+	const stdoutWriter = proc.stdout.getWriter()
 	const out = (s: string) => stdoutWriter.write(txt.toBytes(s))
 
-	function footer() {
-		const tabs = state.views.map((view, index) => {
-			if (view.kind === "dashboard") return index === state.$index.value
-				? `(${view.sigil})`
-				: ` ${view.sigil} `
-			else return index === state.$index.value
-				? `(${view.sigil}${view.$indicator()})`
-				: ` ${view.sigil}${view.$indicator()} `
-		}).join("")
-		return color.bg.x(237) + `  🐙 ${tabs} ` + color.reset.all + `\n`
-	}
-
 	function render() {
-		out(footer())
+		out(ansi.clear + ansi.hideCursor)
+		out(ansi.cursor(proc.rows, 1))
+		out(renderFooter(state))
 	}
 
-	render()
-	proc.onKill(() => process.exit(0))
+	proc.onKill(() => {
+		out(ansi.showCursor)
+		process.exit(0)
+	})
 
 	proc.onKey(key => {
 		if (key === "]") addIndex(state, 1)
@@ -57,7 +36,6 @@ export async function ui(context: Context, commands: string[]) {
 	})
 
 	effect(render)
-
 	setInterval(() => {}, 1000)
 }
 

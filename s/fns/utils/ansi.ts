@@ -1,8 +1,12 @@
 
 const c = (n: number) => `\x1b[${n}m`
 
-export const color = {
+export const ansi = {
+	cursor: (row: number, col: number) => `\x1b[${row};${col}H`,
+
 	clear: `\x1b[2J\x1b[H`,
+	hideCursor: `\x1b[?25l`,
+	showCursor: `\x1b[?25h`,
 
 	reset: {
 		all: c(0),

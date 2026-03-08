@@ -2,13 +2,17 @@
 import {Signal} from "@e280/strata"
 
 export type State = {
+	$rows: Signal<number>
+	$columns: Signal<number>
 	$index: Signal<number>
 	views: (DashboardView | ProcessView)[]
 }
 
+export type Status = "happy" | "angry" | "done" | "failed"
+
 export type Tab = {
 	sigil: string
-	$indicator: Signal<string>
+	$status: Signal<Status>
 	pid: number
 	command: string
 }
