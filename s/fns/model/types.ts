@@ -1,12 +1,14 @@
 
+import {Signal} from "@e280/strata"
+
 export type State = {
-	index: number
+	$index: Signal<number>
 	views: (DashboardView | ProcessView)[]
 }
 
 export type Tab = {
 	sigil: string
-	indicator: string
+	$indicator: Signal<string>
 	pid: number
 	command: string
 }
@@ -17,6 +19,6 @@ export type DashboardView = Tab & {
 
 export type ProcessView = Tab & {
 	kind: "process"
-	lines: string[]
+	$lines: Signal<string[]>
 }
 

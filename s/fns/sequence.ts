@@ -14,11 +14,10 @@ export async function sequence(context: Context, commands: string[]) {
 		child.stderr.pipeTo(proc.stderr, {preventClose: true}).catch(() => {})
 
 		// forward kill signals
-		const stop = proc.onKill(child.kill)
+		proc.onKill(child.kill)
 
 		// wait for process to finish
 		const exitCode = await child.exitCode
-		stop()
 
 		// if the child fails, we exit early with its code
 		if (exitCode !== 0)

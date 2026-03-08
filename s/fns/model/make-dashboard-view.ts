@@ -1,4 +1,5 @@
 
+import {signal} from "@e280/strata"
 import {DashboardView} from "./types.js"
 import {ProcInternal} from "../../types.js"
 
@@ -7,6 +8,6 @@ export const makeDashboardView = (proc: ProcInternal): DashboardView => ({
 	pid: proc.pid,
 	command: "octo",
 	sigil: "s",
-	indicator: "•",
+	$indicator: signal("•"),
 })
 
