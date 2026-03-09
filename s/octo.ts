@@ -3,7 +3,7 @@
 import {cli, command} from "@benev/argv"
 
 import {ui} from "./fns/ui.js"
-import {cliCommons} from "./stuff/cli-commons.js"
+import {cliCommons} from "./cli-commons.js"
 import {toCommands} from "./fns/utils/to-commands.js"
 import {makeNodeContext} from "./envs/node/context.js"
 
