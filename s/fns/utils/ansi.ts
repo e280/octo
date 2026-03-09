@@ -10,7 +10,7 @@ export const ansi = {
 
 	cursor: (row: number, col: number) => `\x1b[${row};${col}H`,
 
-	clear: `\x1b[2J\x1b[H`,
+	nuke: "\x1b[3J" + "\x1b[2J" + "\x1b[H",
 	cursorHide: `\x1b[?25l`,
 	cursorShow: `\x1b[?25h`,
 	altScreenEnter: `\x1b[?1049h`,

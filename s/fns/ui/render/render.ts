@@ -9,7 +9,7 @@ import {getCurrentView} from "../state/get-current-view.js"
 export function render(proc: ProcInternal, state: State) {
 	const view = getCurrentView(state)
 	return [
-		ansi.clear,
+		ansi.nuke,
 		ansi.reset.all,
 		view.kind === "dashboard"
 			? "octo dashboard coming soon lol"
