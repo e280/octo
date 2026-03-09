@@ -10,6 +10,7 @@ export function render(proc: ProcInternal, state: State) {
 	const view = getCurrentView(state)
 	return [
 		ansi.clear,
+		ansi.reset.all,
 		view.kind === "dashboard"
 			? "dashboard"
 			: renderProcess(view),

@@ -24,7 +24,7 @@ export async function ui(context: Context, commands: string[]) {
 		await write(
 			ansi.cursorShow,
 			ansi.clear,
-			ansi.altScreenLeave,
+			// ansi.altScreenLeave,
 		)
 		process.exit(0)
 	}
@@ -48,7 +48,7 @@ export async function ui(context: Context, commands: string[]) {
 	})
 
 	await write(
-		ansi.altScreenEnter,
+		// ansi.altScreenEnter,
 		ansi.clear,
 		ansi.cursorHide,
 	)
