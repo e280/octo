@@ -47,6 +47,8 @@ export async function ui(context: Context, commands: string[]) {
 		if (key === "9") setIndex(state, 9)
 	})
 
+	setIndex(state, 1)
+
 	await write(
 		// ansi.altScreenEnter,
 		ansi.clear,

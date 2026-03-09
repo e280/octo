@@ -1,13 +1,12 @@
 
-import {mergeBytes} from "./merger.js"
 import {ProcExternal, ProcInternal} from "../../types.js"
 
 export function forwardOutputsToParent(
-		children: ProcExternal[],
+		child: ProcExternal,
 		proc: ProcInternal,
 	) {
 
-	mergeBytes(proc.stdout, children.map(p => p.stdout))
-	mergeBytes(proc.stderr, children.map(p => p.stderr))
+	child.stdout.pipeTo(proc.stdout, {preventClose: true}).catch(() => {})
+	child.stderr.pipeTo(proc.stderr, {preventClose: true}).catch(() => {})
 }
 

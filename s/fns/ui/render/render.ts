@@ -12,7 +12,7 @@ export function render(proc: ProcInternal, state: State) {
 		ansi.clear,
 		ansi.reset.all,
 		view.kind === "dashboard"
-			? "dashboard"
+			? "octo dashboard coming soon lol"
 			: renderProcess(view),
 		renderFooter(proc, state),
 	].join("")
