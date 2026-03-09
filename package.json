@@ -1,6 +1,6 @@
 {
 	"name": "@e280/octo",
-	"version": "0.1.0-1",
+	"version": "0.1.0-2",
 	"description": "🐙 tiny command orchestrator",
 	"license": "MIT",
 	"author": "Chase Moskal <chasemoskal@gmail.com>",
