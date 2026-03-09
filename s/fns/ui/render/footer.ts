@@ -77,7 +77,7 @@ function renderRightInfo(
 }
 
 function renderProcessInfo(view: ProcessView, vibe: Vibes, available: number) {
-	const pidPart = vibe.pid(`${view.pid}`)
+	const pidPart = vibe.pid(` ${view.pid}`)
 	const pidWidth = stringWidth(pidPart)
 
 	const commandPrefix = " "
