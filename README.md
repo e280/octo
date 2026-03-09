@@ -13,11 +13,6 @@
 npm install --save-dev @e280/octo
 ```
 
-
-
-<br/>
-
-### 🦑 octo
 ```bash
 octo 'tsc -w' 'scute -wv' 'http-server x' 'node --watch x/test.js'
 ```
