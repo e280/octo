@@ -15,6 +15,7 @@ export function render(proc: ProcInternal, state: State) {
 			? "octo dashboard coming soon lol"
 			: renderProcess(view),
 		renderFooter(proc, state),
+		ansi.cursorHide,
 	].join("")
 }
 
