@@ -4,6 +4,7 @@ import {ansi} from "../../utils/ansi.js"
 import {renderFooter} from "./footer.js"
 import {renderProcess} from "./process.js"
 import {ProcInternal} from "../../../types.js"
+import {renderDashboard} from "./dashboard.js"
 import {getCurrentView} from "../state/get-current-view.js"
 
 export function render(proc: ProcInternal, state: State) {
@@ -12,7 +13,7 @@ export function render(proc: ProcInternal, state: State) {
 		ansi.nuke,
 		ansi.reset.all,
 		view.kind === "dashboard"
-			? "octo dashboard coming soon lol"
+			? renderDashboard()
 			: renderProcess(view),
 		renderFooter(proc, state),
 		ansi.cursorHide,
