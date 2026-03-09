@@ -8,7 +8,7 @@ import {Context, ExitCode, KillSignal, ProcInternal} from "../../types.js"
 export function makeNodeContext(): Context {
 	const proc = {
 		pid: process.pid,
-		command: process.argv[0],
+		command: process.argv[1],
 		get rows() { return process.stdout.rows },
 		get columns() { return process.stdout.columns },
 		stdout: Stream.Writable.toWeb(process.stdout),
