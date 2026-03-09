@@ -7,57 +7,93 @@ import {ProcInternal} from "../../../types.js"
 import {getCurrentView} from "../state/get-current-view.js"
 
 export function renderFooter(proc: ProcInternal, state: State) {
-	const cursorPosition = ansi.cursor(proc.rows, 1)
+	const vibe = makeFooterVibes()
+
+	const left = renderTabs(state, vibe)
+	const leftWidth = stringWidth(left)
+
+	const availableRight = Math.max(0, state.$columns() - leftWidth)
+	const right = renderRightInfo(state, vibe, availableRight)
+
+	const spaces = " ".repeat(
+		Math.max(0, state.$columns() - leftWidth - stringWidth(right))
+	)
+
+	return [
+		ansi.cursor(proc.rows, 1),
+		left,
+		vibe.plain(spaces),
+		right,
+	].join("")
+}
+
+function makeFooterVibes() {
 	const bg = ansi.bg.x(234)
-	const selectedBg = ansi.bg.x(237)
+	const bgSelected = ansi.bg.x(237)
 
-	const plainVibe = ansi.combo(bg)
-	const angryVibe = ansi.combo(bg, ansi.bright.red)
-	const pidVibe = ansi.combo(bg, ansi.dim, ansi.blue)
-	const commandVibe = ansi.combo(bg, ansi.blue)
+	return {
+		plain: ansi.combo(bg),
+		angry: ansi.combo(bg, ansi.bright.red),
+		pid: ansi.combo(bg, ansi.dim, ansi.blue),
+		cmd: ansi.combo(bg, ansi.blue),
 
-	const starVibe = ansi.combo(selectedBg, ansi.dim)
-	const selectedVibe = ansi.combo(selectedBg)
-	const selectedAngryVibe = ansi.combo(selectedBg, ansi.bright.red)
+		sel: ansi.combo(bgSelected),
+		selStar: ansi.combo(bgSelected, ansi.dim),
+		selAngry: ansi.combo(bgSelected, ansi.bright.red),
+	}
+}
 
-	const tabs = state.views.map((view, index) => {
+function renderTabs(state: State, vibe: ReturnType<typeof makeFooterVibes>) {
+	return state.views.map((view, index) => {
 		const isActive = index === state.$index.value
-		const sigil = index === 0
-			? "🐙"
-			: index.toString()
 		const isAngry = ["angry", "failed"].includes(view.$status())
-		const chunk = (view.kind === "dashboard")
+		const sigil = index === 0 ? "🐙" : index.toString()
+		const chunk = view.kind === "dashboard"
 			? sigil
 			: sigil + indicator(view.$status())
-		return isActive
-			? starVibe("*") + (isAngry ? selectedAngryVibe : selectedVibe)(chunk + " ")
-			: (isAngry ? angryVibe : plainVibe)(` ${chunk} `)
+
+		if (isActive) {
+			return vibe.selStar("*") +
+				(isAngry ? vibe.selAngry : vibe.sel)(chunk + " ")
+		}
+
+		return (isAngry ? vibe.angry : vibe.plain)(` ${chunk} `)
 	}).join("")
+}
 
-	const col = state.$columns()
-	const content = tabs
-	const tabsWidth = stringWidth(tabs)
-	const rightSpace = col - tabsWidth
+function renderRightInfo(
+		state: State,
+		vibe: ReturnType<typeof makeFooterVibes>,
+		available: number,
+	) {
 
-	let right = ""
 	const view = getCurrentView(state)
-	const fits = (s: string) => (rightSpace > (stringWidth(s) + 4))
+
 	if (view.kind === "process") {
-		const info = pidVibe(`${view.pid}`) + commandVibe(` ${view.command} `)
-		const info2 = pidVibe(`${view.pid}`) + commandVibe(` ${view.command.slice(0, 16)}... `)
-		const info3 = pidVibe(`${view.pid} `)
-		if (fits(info)) right = info
-		else if (fits(info2)) right = info2
-		else if (fits(info3)) right = info3
-	}
-	else {
-		const info = pidVibe(`${view.pid}`) + commandVibe(` ${"octo"} `)
-		const info2 = pidVibe(`${view.pid} `)
-		if (fits(info)) right = info
-		else if (fits(info2)) right = info2
+		return chooseThatFits(available, [
+			vibe.pid(`${view.pid}`) + vibe.cmd(` ${view.command} `),
+			vibe.pid(`${view.pid}`) + vibe.cmd(` ${truncate(view.command, 16)} `),
+			vibe.pid(`${view.pid} `),
+		])
 	}
 
-	const spaces = " ".repeat(col - (tabsWidth + stringWidth(right)))
-	return cursorPosition + content + plainVibe(spaces) + right
+	return chooseThatFits(available, [
+		vibe.pid(`${view.pid}`) + vibe.cmd(` octo `),
+		vibe.pid(`${view.pid} `),
+	])
+}
+
+function chooseThatFits(available: number, options: string[]) {
+	for (const option of options) {
+		if (stringWidth(option) + 4 < available)
+			return option
+	}
+	return ""
+}
+
+function truncate(text: string, max: number) {
+	return text.length <= max
+		? text
+		: text.slice(0, max) + "..."
 }
 
