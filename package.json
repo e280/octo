@@ -11,14 +11,18 @@
 		"s"
 	],
 	"bin": {
-		"octo": "x/cli.js"
+		"octo": "./x/octo.js",
+		"octo-parallel": "./x/octo-parallel.js",
+		"octo-sequence": "./x/octo-sequence.js",
+		"octo-p": "./x/octo-parallel.js",
+		"octo-s": "./x/octo-sequence.js"
 	},
 	"scripts": {
 		"build": "rm -rf x && mkdir x && tsc",
-		"test": "node x/tests.test.js",
-		"octo": "node x/cli.js",
-		"ui": "node x/cli.js parallel --ui 'cat package.json' 'npm run octo -- --help' 'npm test' 'sleep 2; echo hello' 'sleep 3; exit 1'",
-		"start": "tsc -w & node --watch x/tests.test.js & wait",
+		"dev": "tsc -w & node --watch x/test.js & wait",
+		"test": "node x/test.js",
+		"octo": "node x/octo.js",
+		"ui": "node x/octo.js 'cat package.json' 'npm run octo -- --help' 'npm test' 'sleep 2; echo hello' 'sleep 3; exit 1'",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +"
 	},
 	"dependencies": {

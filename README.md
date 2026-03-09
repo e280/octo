@@ -17,62 +17,35 @@
 ```bash
 npm install --save-dev @e280/octo
 ```
-- run watch tasks together in a fancy tabby tui (tsc, http-server, scute, tests, etc)
-- run package.json scripts in parallel or sequence (goodbye `npm-run-all` 🫡)
-- octo was originally born in [`@e280/scute`](https://github.com/e280/scute)
 
-
-
-<br/>
-
-## 🦑 octo parallel — *run commands all-at-once*
-
+### ✨🆒✨ run commands all-at-once, fancy tui
 ```bash
-octo parallel 'tsc -w' 'http-server x' 'node --watch x/tests.test.js'
+octo 'tsc -w' 'scute -wv' 'http-server x' 'node --watch x/test.js'
+```
+- press `[` and `]` to shimmy between tabs (or numbers or h,j,k,l,a,d)
+- press `q` or `ctrl-c` to quit
+
+### run commands all-at-once, headlessly, no tui
+```bash
+octo-parallel 'tsc -w' 'scute -wv' 'http-server x' 'node --watch x/test.js'
 ```
 
+### run commands one-by-one, no tui
 ```bash
-# run your npm scripts
-octo parallel --npm-run lint bundle test
+octo-sequence 'tsc' 'scute -v' 'node x/test.js'
 ```
 
+### --npm-run
 ```bash
-# ✨🆒✨ fancy terminal user interface
-octo parallel --ui 'tsc -w' 'http-server-x' 'node --watch x/tests.test.js'
+octo --npm-run 'tsc-watch' 'scute-watch' 'server-watch' 'test-watch'
 ```
-- press `[` and `]` to shimmy between tabs
-- press `q` to quit
-- yes, you can combine it with `--npm-run`
+- `-n` for short
+- for calling package.json scripts instead of shell commands
+- works on `octo`, `octo-parallel`, `octo-sequence`
 
-
-
-<br/>
-
-## 🦑 octo sequence — *run commands one-by-one*
-
-```bash
-octo sequence 'rm -rf x' 'tsc' 'node x/tests.test.js'
-```
-
-```bash
-# run your npm scripts
-octo sequence --npm-run clean tsc test
-```
-
-
-
-<br/>
-
-## 🦑 octo aliases
-
-```bash
-octo p -nu lint bundle test
-octo s -n lint bundle test
-```
-- `p` === `parallel`
-- `s` === `sequence`
-- `-n` === `--npm-run`
-- `-u` === `--ui`
+### aliases
+- `octo-p` === `octo-parallel`
+- `octo-s` === `octo-sequence`
 
 
 
