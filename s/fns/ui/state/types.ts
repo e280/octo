@@ -22,6 +22,6 @@ export type DashboardView = Tab & {
 
 export type ProcessView = Tab & {
 	kind: "process"
-	$lines: Signal<string[]>
+	$data: Signal<Uint8Array[]>
 }
 

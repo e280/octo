@@ -3,8 +3,10 @@ import stringWidth from "string-width"
 import {State} from "../state/types.js"
 import {ansi} from "../../utils/ansi.js"
 import {indicator} from "./indicator.js"
+import {ProcInternal} from "../../../types.js"
 
-export function renderFooter(state: State) {
+export function renderFooter(proc: ProcInternal, state: State) {
+	const cursorPosition = ansi.cursor(proc.rows, 1)
 	const bg = ansi.bg.x(234)
 	const selectedBg = ansi.bg.x(237)
 
@@ -33,6 +35,6 @@ export function renderFooter(state: State) {
 	const width = stringWidth(tabs)
 	const spaces = " ".repeat(state.$columns() - width)
 
-	return content + plainVibe(spaces)
+	return cursorPosition + content + plainVibe(spaces)
 }
 
