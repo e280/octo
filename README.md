@@ -24,14 +24,14 @@ npm install --save-dev @e280/octo
     ```bash
     octo-parallel 'tsc -w' 'scute -wv' 'http-server x' 'node --watch x/test.js'
     ```
-    - alias `octo-p`
+- alias `octo-p`
 
 ### 🦑 octo-sequence
 - run commands one-by-one, no tui
     ```bash
     octo-sequence 'tsc' 'scute -v' 'node x/test.js'
     ```
-    - alias `octo-s`
+- alias `octo-s`
 
 
 
