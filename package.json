@@ -5,15 +5,13 @@
 	"license": "MIT",
 	"author": "Chase Moskal <chasemoskal@gmail.com>",
 	"type": "module",
-	"main": "./x/index.js",
 	"sideEffects": false,
 	"files": [
 		"x",
 		"s"
 	],
-	"bin": "./x/octo/cli.js",
-	"exports": {
-		".": "./x/index.js"
+	"bin": {
+		"octo": "x/cli.js"
 	},
 	"scripts": {
 		"build": "rm -rf x && mkdir x && tsc",
@@ -22,6 +20,14 @@
 		"ui": "node x/cli.js parallel --ui 'cat package.json' 'npm run octo -- --help' 'sleep 2; echo hello' 'sleep 3; exit 1'",
 		"start": "tsc -w & node --watch x/tests.test.js & wait",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +"
+	},
+	"dependencies": {
+		"@benev/argv": "^0.3.14",
+		"@e280/sten": "^0.1.1",
+		"@e280/strata": "^0.3.0-2",
+		"@e280/stz": "^0.2.24",
+		"shell-quote": "^1.8.3",
+		"string-width": "^8.2.0"
 	},
 	"devDependencies": {
 		"@e280/science": "^0.1.8",
@@ -43,13 +49,5 @@
 	},
 	"bugs": {
 		"url": "https://github.com/e280/octo/issues"
-	},
-	"dependencies": {
-		"@benev/argv": "^0.3.14",
-		"@e280/sten": "^0.1.1",
-		"@e280/strata": "^0.3.0-2",
-		"@e280/stz": "^0.2.24",
-		"shell-quote": "^1.8.3",
-		"string-width": "^8.2.0"
 	}
 }
