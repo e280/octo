@@ -13,7 +13,7 @@ await cli(process.argv, {
 	...cliCommons.options,
 	commands: command({
 		...cliCommons.command,
-		help: "run commands one-at-a-time.",
+		help: "run commands one-by-one.",
 
 		async execute({params, extraArgs}) {
 			await sequence(context, toCommands(params, extraArgs))
