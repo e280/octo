@@ -2,17 +2,16 @@
 import {ProcessView} from "./types.js"
 import {ProcExternal} from "../../../types.js"
 import {readStream} from "../../utils/read-stream.js"
+import {appendToSlidingBuffer} from "./append-to-sliding-buffer.js"
 
-export function liveUpdates(proc: ProcExternal, view: ProcessView) {
+export function liveProcessUpdates(proc: ProcExternal, view: ProcessView) {
 	readStream(proc.stdout, async data => {
-		view.$data.value.push(data)
-		await view.$data.publish()
+		await appendToSlidingBuffer(view.slidingBuffer, data)
 		await view.$status("happy")
 	})
 
 	readStream(proc.stderr, async data => {
-		view.$data.value.push(data)
-		await view.$data.publish()
+		await appendToSlidingBuffer(view.slidingBuffer, data)
 		await view.$status("angry")
 	})
 

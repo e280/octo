@@ -8,6 +8,9 @@ export const makeProcessView = (proc: ProcExternal): ProcessView => ({
 	pid: proc.pid,
 	command: proc.command,
 	$status: signal<Status>("happy"),
-	$data: signal<Uint8Array[]>([]),
+	slidingBuffer: {
+		$data: signal<Uint8Array>(new Uint8Array(64 * 1024)),
+		$length: signal(0),
+	},
 })
 

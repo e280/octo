@@ -22,6 +22,11 @@ export type DashboardView = Tab & {
 
 export type ProcessView = Tab & {
 	kind: "process"
-	$data: Signal<Uint8Array[]>
+	slidingBuffer: SlidingBuffer
+}
+
+export type SlidingBuffer = {
+	$data: Signal<Uint8Array>
+	$length: Signal<number>
 }
 

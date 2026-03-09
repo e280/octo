@@ -1,7 +1,7 @@
 
 import {signal} from "@e280/strata"
 import {State} from "./types.js"
-import {liveUpdates} from "./live-updates.js"
+import {liveProcessUpdates} from "./live-process-updates.js"
 import {makeProcessView} from "./make-process-view.js"
 import {makeDashboardView} from "./make-dashboard-view.js"
 import {ProcExternal, ProcInternal} from "../../../types.js"
@@ -11,7 +11,7 @@ export function makeLivingState(proc: ProcInternal, children: ProcExternal[]): S
 
 	const processViews = children.map(child => {
 		const view = makeProcessView(child)
-		liveUpdates(child, view)
+		liveProcessUpdates(child, view)
 		return view
 	})
 
