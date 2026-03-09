@@ -44,36 +44,6 @@ octo parallel --ui 'tsc -w' 'http-server-x' 'node --watch x/tests.test.js'
 - press `q` to quit
 - yes, you can combine it with `--npm-run`
 
-##### example --ui split view
-```
-┌─ 1! tsc -w ──────────────────────────┐
-│ s/foo.ts:12 error TS2339             │
-│ s/bar.ts:44 error TS2322             │
-└────────────────────────────────23415─┘
-┌─ 2• scute -wv ───────────────────────┐
-│ html x/index.html                    │
-│ time 129 ms                          │
-└────────────────────────────────23416─┘
-┌─ 3• node --watch x/tests.js ─────────┐
-│ ✅ 21 happy tests - 61 ms            │
-│                                      │
-└────────────────────────────────23417─┘
-  🐙 (s) 1!  2•  3•
-```
-
-##### example --ui process view
-```
-s/foo.ts:12 error TS2339
-s/bar.ts:44 error TS2322
-  🐙  s (1!) 2•  3•         23415 tsc -w
-```
-
-##### process status indicators
-- `•` running, got stdout
-- `!` running, got stderr
-- `◦` done (exit zero)
-- `x` failed (exit non-zero)
-
 
 
 <br/>
