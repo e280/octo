@@ -1,10 +1,10 @@
 
 import stringWidth from "string-width"
-import {State} from "../state/types.js"
 import {ansi} from "../../utils/ansi.js"
 import {indicator} from "./indicator.js"
 import {ProcInternal} from "../../../types.js"
 import {getCurrentView} from "../state/get-current-view.js"
+import {DashboardView, ProcessView, State} from "../state/types.js"
 
 export function renderFooter(proc: ProcInternal, state: State) {
 	const vibe = makeFooterVibes()
@@ -43,6 +43,8 @@ function makeFooterVibes() {
 	}
 }
 
+type Vibes = ReturnType<typeof makeFooterVibes>
+
 function renderTabs(state: State, vibe: ReturnType<typeof makeFooterVibes>) {
 	return state.views.map((view, index) => {
 		const isActive = index === state.$index.value
@@ -62,21 +64,60 @@ function renderTabs(state: State, vibe: ReturnType<typeof makeFooterVibes>) {
 }
 
 function renderRightInfo(
-		state: State,
-		vibe: ReturnType<typeof makeFooterVibes>,
-		available: number,
-	) {
-
+	state: State,
+	vibe: Vibes,
+	available: number,
+) {
 	const view = getCurrentView(state)
 
-	if (view.kind === "process") {
-		return chooseThatFits(available, [
-			vibe.pid(`${view.pid}`) + vibe.cmd(` ${view.command} `),
-			vibe.pid(`${view.pid}`) + vibe.cmd(` ${truncate(view.command, 16)} `),
-			vibe.pid(`${view.pid} `),
-		])
+	if (view.kind === "process")
+		return renderProcessInfo(view, vibe, available)
+
+	return renderDashboardInfo(view, vibe, available)
+}
+
+function renderProcessInfo(view: ProcessView, vibe: Vibes, available: number) {
+	const pidPart = vibe.pid(`${view.pid}`)
+	const pidWidth = stringWidth(pidPart)
+
+	const commandPrefix = " "
+	const commandSuffix = " "
+	const fixedWidth = pidWidth + stringWidth(commandPrefix + commandSuffix)
+
+	const remaining = available - fixedWidth
+	if (remaining <= 0)
+		return ""
+
+	const truncated = truncateToWidth(view.command, remaining)
+	return pidPart + vibe.cmd(`${commandPrefix}${truncated}${commandSuffix}`)
+}
+
+function truncateToWidth(text: string, maxWidth: number) {
+	if (maxWidth <= 0)
+		return ""
+
+	const ellipsis = "..."
+	const ellipsisWidth = stringWidth(ellipsis)
+
+	if (stringWidth(text) <= maxWidth)
+		return text
+
+	if (maxWidth < ellipsisWidth)
+		return ""
+
+	let out = ""
+	for (const ch of text) {
+		if (stringWidth(out + ch + ellipsis) > maxWidth)
+			break
+		out += ch
 	}
 
+	return out
+		? out + ellipsis
+		: ""
+}
+
+function renderDashboardInfo(view: DashboardView, vibe: Vibes, available: number) {
 	return chooseThatFits(available, [
 		vibe.pid(`${view.pid}`) + vibe.cmd(` octo `),
 		vibe.pid(`${view.pid} `),
@@ -89,11 +130,5 @@ function chooseThatFits(available: number, options: string[]) {
 			return option
 	}
 	return ""
-}
-
-function truncate(text: string, max: number) {
-	return text.length <= max
-		? text
-		: text.slice(0, max) + "..."
 }
 
