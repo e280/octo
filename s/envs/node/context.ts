@@ -22,13 +22,13 @@ export function makeNodeContext(): Context {
 	process.stdout.on("resize", proc.onResize.pub)
 
 	async function die(killSignal: KillSignal) {
-		process.stdin.setRawMode(false)
+		process.stdin.setRawMode?.(false)
 		process.stdin.pause()
 		await proc.onKill.pub(killSignal)
 		await proc.exit(0)
 	}
 
-	process.stdin.setRawMode(true)
+	process.stdin.setRawMode?.(true)
 	process.stdin.resume()
 	process.stdin.on("data", async buf => {
 		if (buf[0] === 3) await die("SIGINT")

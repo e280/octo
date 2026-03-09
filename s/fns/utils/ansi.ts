@@ -11,8 +11,10 @@ export const ansi = {
 	cursor: (row: number, col: number) => `\x1b[${row};${col}H`,
 
 	clear: `\x1b[2J\x1b[H`,
-	hideCursor: `\x1b[?25l`,
-	showCursor: `\x1b[?25h`,
+	cursorHide: `\x1b[?25l`,
+	cursorShow: `\x1b[?25h`,
+	altScreenEnter: `\x1b[?1049h`,
+	altScreenLeave: `\x1b[?1049l`,
 
 	reset: {
 		all: c(0),

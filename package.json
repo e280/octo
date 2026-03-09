@@ -19,7 +19,7 @@
 		"build": "rm -rf x && mkdir x && tsc",
 		"test": "node x/tests.test.js",
 		"octo": "node x/cli.js",
-		"ui": "node x/cli.js parallel --ui 'cat package.json' 'sleep 2; echo hello' 'sleep 3; exit 1'",
+		"ui": "node x/cli.js parallel --ui 'cat package.json' 'npm run octo -- --help' 'sleep 2; echo hello' 'sleep 3; exit 1'",
 		"start": "tsc -w & node --watch x/tests.test.js & wait",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +"
 	},

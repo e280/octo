@@ -14,7 +14,6 @@ export function render(proc: ProcInternal, state: State) {
 			? "dashboard"
 			: renderProcess(view),
 		renderFooter(proc, state),
-		ansi.hideCursor,
 	].join("")
 }
 
