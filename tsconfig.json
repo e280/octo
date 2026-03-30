@@ -5,11 +5,9 @@
 		"outDir": "x",
 		"target": "es2023",
 		"lib": ["es2023"],
+		"types": ["node"],
 		"module": "nodenext",
 		"moduleResolution": "nodenext",
-		"experimentalDecorators": true,
-		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true,
 		"sourceMap": true,
 		"declaration": true,
 		"skipLibCheck": true
