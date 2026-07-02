@@ -1,7 +1,7 @@
 
 import {SlidingBuffer} from "./types.js"
 
-export async function appendToSlidingBuffer(
+export function appendToSlidingBuffer(
 		{$data, $length}: SlidingBuffer,
 		incoming: Uint8Array,
 	) {
@@ -12,8 +12,8 @@ export async function appendToSlidingBuffer(
 	// if fit over overflow, keep tail
 	if (incoming.length >= data.length) {
 		data.set(incoming.subarray(incoming.length - data.length))
-		await $length(data.length)
-		await $data.publish()
+		$length(data.length)
+		$data($data())
 		return
 	}
 
@@ -32,7 +32,7 @@ export async function appendToSlidingBuffer(
 	data.set(incoming, data.length - incoming.length)
 
 	// update signals
-	await $length(nextLength)
-	await $data.publish()
+	$length(nextLength)
+	$data($data())
 }
 

@@ -47,7 +47,7 @@ type Vibes = ReturnType<typeof makeFooterVibes>
 
 function renderTabs(state: State, vibe: ReturnType<typeof makeFooterVibes>) {
 	return state.views.map((view, index) => {
-		const isActive = index === state.$index.value
+		const isActive = index === state.$index()
 		const isAngry = ["angry", "failed"].includes(view.$status())
 		const sigil = index === 0 ? "🐙" : index.toString()
 		const chunk = view.kind === "dashboard"
