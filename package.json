@@ -28,8 +28,8 @@
 	"dependencies": {
 		"@benev/argv": "^0.3.14",
 		"@e280/sten": "^0.1.1",
-		"@e280/strata": "^0.4.2",
-		"@e280/stz": "^0.3.3",
+		"@e280/strata": "^0.4.3",
+		"@e280/stz": "^0.3.7",
 		"shell-quote": "^1.10.0",
 		"string-width": "^8.2.2"
 	},
