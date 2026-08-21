@@ -10,6 +10,9 @@
 
 ## v0.1
 
+### v0.1.5
+- 🍏 update dependencies
+
 ### v0.1.4
 - 🍏 update dependencies
 
