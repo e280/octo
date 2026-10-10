@@ -35,7 +35,7 @@ export default Science.suite({
 		const bravo = spy(async() => 0)
 		const [context, commands] = setupOptions(alpha, bravo)
 		let exitCode: number | null = null
-		context.proc.exit.sub(code => { exitCode = code })
+		context.proc.exit.sub(async code => { exitCode = await code })
 		await parallel(context, commands)
 		expect(exitCode).is(0)
 	}),
@@ -45,7 +45,7 @@ export default Science.suite({
 		const bravo = spy(async() => 1)
 		const [context, commands] = setupOptions(alpha, bravo)
 		let exitCode: number | null = null
-		context.proc.exit.sub(code => { exitCode = code })
+		context.proc.exit.sub(async code => { exitCode = await code })
 		await parallel(context, commands)
 		expect(exitCode).is(1)
 	}),
