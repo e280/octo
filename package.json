@@ -28,13 +28,13 @@
 	"dependencies": {
 		"@benev/argv": "^0.3.14",
 		"@e280/sten": "^0.1.1",
-		"@e280/strata": "^0.5.3",
-		"@e280/stz": "^0.4.5",
+		"@e280/strata": "^0.5.6",
+		"@e280/stz": "^0.4.9",
 		"shell-quote": "^1.12.0",
 		"string-width": "^8.3.0"
 	},
 	"devDependencies": {
-		"@e280/science": "^0.1.12",
+		"@e280/science": "^0.1.14",
 		"@types/node": "^26.6.5",
 		"@types/shell-quote": "^1.7.5",
 		"typescript": "^7.0.2"
